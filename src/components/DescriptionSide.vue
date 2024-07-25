@@ -21,10 +21,11 @@ import SkeletonSide from '../components/SkeletonSide.vue'
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid #4D4D4D;
 
   & .description_img {
     margin-top: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 40px;
   }
 
   & .description_skeleton {

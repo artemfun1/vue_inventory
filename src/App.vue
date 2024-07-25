@@ -17,10 +17,9 @@ import InventorySide from './components/Inventory/InventorySide.vue'
 
 <style scoped>
 .wrapper {
-  background: #000;
   width: 944px;
   display: flex;
-  margin: 35px 35px 25px 35px;
+  margin: 35px 35px 24px 35px;
 }
 .footer_wrapper{
   width: 944px;

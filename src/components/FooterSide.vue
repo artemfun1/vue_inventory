@@ -18,5 +18,6 @@ import SkeletonFooter from '../components/SkeletonFooter.vue'
   height: 72px;
   background-color: #262626;
   position: relative;
+  border: 1px solid #4D4D4D
 }
 </style>
