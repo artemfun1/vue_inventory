@@ -1,6 +1,6 @@
 <template>
   <div class="description">
-    <img class="description_img" src="../assets/Img.png" alt="img" />
+    <img @click="clear" class="description_img" src="../assets/Img.png" alt="img" />
 
     <div class="description_skeleton">
       <skeleton-side />
@@ -10,6 +10,12 @@
 
 <script setup>
 import SkeletonSide from '../components/SkeletonSide.vue'
+
+
+const clear=()=>{
+  localStorage.removeItem("items")
+  console.log('clear local storage')
+}
 </script>
 
 <style scoped>

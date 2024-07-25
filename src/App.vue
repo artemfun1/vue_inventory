@@ -2,12 +2,25 @@
 import DescriptionSide from './components/DescriptionSide.vue'
 import FooterSide from './components/FooterSide.vue'
 import InventorySide from './components/Inventory/InventorySide.vue'
+import { useItemsArrayStore } from '@/stores/itemsArrayStore'
+import { storeToRefs } from 'pinia'
+
+
+const itemsArrayStore = useItemsArrayStore()
+const { itemsArray } = storeToRefs(itemsArrayStore)
+
+
+
+const openItem=({i})=>{
+  console.log(itemsArray.value[i])
+}
 </script>
 
 <template>
+
   <div class="wrapper">
     <description-side />
-    <inventory-side />
+    <inventory-side  @open-item="openItem"/>
   </div>
 
 
