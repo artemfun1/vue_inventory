@@ -1,8 +1,16 @@
 <template>
   <div ref="inventory" class="inventory">
-    <div class="cell" v-for="i in 25" :key="i"  @click="()=>buttonClick(i-1)"    :itemId="i - 1" ref="inventory">
+    <div
+      class="cell"
+      v-for="i in 25"
+      :key="i"
+      @click="() => getIndexClick(i - 1)"
+      :itemId="i - 1"
+      ref="inventory"
+    >
       <div v-if="isCountArray[i - 1]" class="cell_count">1</div>
     </div>
+    <item-setting :is-open-s="isOpen"  />
   </div>
 </template>
 
@@ -12,26 +20,28 @@ import { useIndexCell } from '@/hooks/useIndexCell'
 import { useItemsArrayStore } from '@/stores/itemsArrayStore'
 import { storeToRefs } from 'pinia'
 import { setBorderInventory } from '@/utils/setBorderInventory'
+import itemSetting from './itemSetting.vue'
 
 import { onMounted, ref, watch } from 'vue'
 
+let isOpen= ref<{
+  isOpen:boolean
+  index:null | number
+}>({
+  isOpen:false,
+  index:null
+})
 
 
 
+function getIndexClick(i:number) {
+  
+  isOpen.value = {
+    isOpen:true,
+    index:i
+  }
 
-const emit = defineEmits(['openItem'])
-
-function buttonClick(i) {
-  emit('openItem',{i})
 }
-
-
-
-
-
-
-
-
 
 const itemsArrayStore = useItemsArrayStore()
 const { itemsArray } = storeToRefs(itemsArrayStore)
@@ -54,15 +64,9 @@ const addCountArr = () => {
   })
 }
 
-
-
-
-
 watch(itemsArray, addCountArr, { deep: true })
 
 onMounted(() => {
-  
-  
   addCountArr()
   setBorderInventory(inventory)
 
@@ -81,7 +85,7 @@ onMounted(() => {
       const item = items.value![i]
 
       const indexItemDown = useIndexCell(item, event, enterDroppable)
-      
+
       const colorItemDown = useColorItemDown(event)
       if (indexItemDown && colorItemDown) {
         upItem(indexItemDown, colorItemDown)
@@ -91,7 +95,7 @@ onMounted(() => {
       let shiftY = event.clientY - item.getBoundingClientRect().top
 
       item.style.position = 'absolute'
-      item.style.zIndex = '1000'
+      item.style.zIndex = '10'
       item.style.width = '80px'
       item.style.height = '80px'
       item.style.outlineOffset = '10px'
@@ -195,6 +199,8 @@ onMounted(() => {
   border-radius: 15px;
   height: 100%;
   width: 100%;
+  position: relative;
+  overflow: hidden;
 
   display: grid;
 
