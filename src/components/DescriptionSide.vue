@@ -11,9 +11,8 @@
 <script setup>
 import SkeletonSide from '../components/SkeletonSide.vue'
 
-
-const clear=()=>{
-  localStorage.removeItem("items")
+const clear = () => {
+  localStorage.removeItem('items')
   console.log('clear local storage')
 }
 </script>
@@ -27,7 +26,7 @@ const clear=()=>{
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #4D4D4D;
+  border: 1px solid #4d4d4d;
 
   & .description_img {
     margin-top: 16px;

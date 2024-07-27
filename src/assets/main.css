@@ -1,28 +1,24 @@
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html,body,#app{
+html,
+body,
+#app {
   height: 100%;
   min-width: 1014px;
- 
 }
 
 body {
   /* overflow: hidden; */
 }
 
-#app{
+#app {
   overflow: auto;
-  background-color: #1D1D1D;
+  background-color: #1d1d1d;
   display: flex;
- flex-direction: column;
- align-items: center;
-
- 
+  flex-direction: column;
+  align-items: center;
 }
-
-
-

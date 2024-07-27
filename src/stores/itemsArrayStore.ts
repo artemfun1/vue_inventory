@@ -10,18 +10,18 @@ export const useItemsArrayStore = defineStore('counter', () => {
   >([
     {
       item: 'green',
-      count: 1,
+      count: 5,
 
       description: 'green'
     },
     {
       item: 'violet',
-      count: 1,
+      count: 4,
       description: 'violet'
     },
     {
       item: 'yellow',
-      count: 1,
+      count: 3,
       description: 'yellow'
     },
     {
@@ -137,16 +137,58 @@ export const useItemsArrayStore = defineStore('counter', () => {
   ])
 
   if (localStorage.getItem('items')) {
+    console.log(JSON.parse(localStorage.getItem('items')!))
     itemsArray.value = JSON.parse(localStorage.getItem('items')!)
   }
 
-  const clearIndex =ref(0)
+  const clearIndex = ref(0)
 
   const upItem = (index: string, color: string) => {
     clearIndex.value = +index
   }
 
+  const setCount = (
+    obj: {
+      item: string | HTMLImageElement | null
+      count: number
+      description: string | null
+    },
+    num: number,
+    index: number
+  ) => {
+    const result = itemsArray.value[index].count - num > 0 ? itemsArray.value[index].count - num : 0
+
+    if (result === 0) {
+      itemsArray.value[index] = {
+        item: null,
+        count: 0,
+        description: null
+      }
+
+      itemsArray.value.forEach((obj) => {
+        obj.item = obj.description
+      })
+      localStorage.setItem('items', JSON.stringify(itemsArray.value))
+
+      return
+    }
+    console.log(2)
+    itemsArray.value[index] = {
+      item: obj.description,
+      count: result,
+      description: obj.description
+    }
+
+    itemsArray.value.forEach((obj) => {
+      obj.item = obj.description
+    })
+
+    localStorage.setItem('items', JSON.stringify(itemsArray.value))
+  }
+
   const downItem = (index: string, color: string) => {
+    const count = itemsArray.value[clearIndex.value].count
+
     itemsArray.value[clearIndex.value] = {
       item: null,
       count: 0,
@@ -170,7 +212,7 @@ export const useItemsArrayStore = defineStore('counter', () => {
 
     itemsArray.value[i] = {
       item: color,
-      count: 0,
+      count: count,
       description: color
     }
 
@@ -199,5 +241,5 @@ export const useItemsArrayStore = defineStore('counter', () => {
     }
   })
 
-  return { itemsArray, downItem, upItem }
+  return { itemsArray, downItem, upItem, setCount }
 })

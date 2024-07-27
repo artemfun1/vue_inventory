@@ -8,9 +8,11 @@
       :itemId="i - 1"
       ref="inventory"
     >
-      <div v-if="isCountArray[i - 1]" class="cell_count">1</div>
+      <div v-if="isCountArray[i - 1]" class="cell_count">
+        <p>{{ itemsArray[i - 1].count }}</p>
+      </div>
     </div>
-    <item-setting :is-open-s="isOpen"  />
+    <item-setting :is-open-s="isOpen" @close-item="closeItem" />
   </div>
 </template>
 
@@ -18,29 +20,31 @@
 import { useColorItemDown } from '@/hooks/useColorItemDown'
 import { useIndexCell } from '@/hooks/useIndexCell'
 import { useItemsArrayStore } from '@/stores/itemsArrayStore'
-import { storeToRefs } from 'pinia'
 import { setBorderInventory } from '@/utils/setBorderInventory'
+import { storeToRefs } from 'pinia'
 import itemSetting from './itemSetting.vue'
 
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUpdated, ref, watch } from 'vue'
 
-let isOpen= ref<{
-  isOpen:boolean
-  index:null | number
+let isOpen = ref<{
+  isOpen: boolean
+  index: number
 }>({
-  isOpen:false,
-  index:null
+  isOpen: false,
+  index: 0
 })
 
+function closeItem() {
+  isOpen.value.isOpen = false
+}
 
-
-function getIndexClick(i:number) {
-  
-  isOpen.value = {
-    isOpen:true,
-    index:i
+function getIndexClick(i: number) {
+  if (itemsArray.value[i].item) {
+    isOpen.value = {
+      isOpen: true,
+      index: i
+    }
   }
-
 }
 
 const itemsArrayStore = useItemsArrayStore()
@@ -55,7 +59,7 @@ const isCountArray = ref<boolean[]>([])
 
 const addCountArr = () => {
   isCountArray.value = []
-  itemsArray.value.forEach((obj) => {
+  itemsArray.value.forEach((obj, i) => {
     if (obj.description) {
       isCountArray.value.push(true)
     } else {
@@ -65,6 +69,16 @@ const addCountArr = () => {
 }
 
 watch(itemsArray, addCountArr, { deep: true })
+
+onUpdated(() => {
+  itemsArray.value.forEach((obj, i) => {
+    if (!obj.description) {
+      if (inventory.value?.children[i].lastChild.className) {
+        inventory.value?.children[i].lastChild.remove()
+      }
+    }
+  })
+})
 
 onMounted(() => {
   addCountArr()
@@ -158,7 +172,7 @@ onMounted(() => {
         item.style.borderRadius = ''
 
         item.style.position = 'static'
-        item.style.zIndex = '1000'
+        item.style.zIndex = '10'
         item.style.width = '80px'
         item.style.height = '80px'
         item.style.cursor = 'pointer'
