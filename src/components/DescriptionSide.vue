@@ -1,6 +1,8 @@
 <template>
   <div class="description">
+     <p class="test">click img - clear localStorage </p>
     <img @click="clear" class="description_img" src="../assets/Img.png" alt="img" />
+   
 
     <div class="description_skeleton">
       <skeleton-side />
@@ -18,6 +20,10 @@ const clear = () => {
 </script>
 
 <style scoped>
+.test{
+  position: absolute;
+  color:#4d4d4d ;
+}
 .description {
   background-color: #262626;
   width: 240px;
